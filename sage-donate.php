@@ -36,8 +36,7 @@ if(!class_exists('SD_Sage_Donate'))
 
             // register shortcodes for forms, etc
             add_shortcode('sage_donate', array(&$this, 'show_donate_form'));
-            add_shortcode('sage_donate_success', array(&$this, 'show_success_page'));
-            //add_shortcode('sage_donate_failure', array(&$this, 'show_failure_page'));
+            add_shortcode('sage_after_donate', array(&$this, 'post_donation'));
 
             // Add setting link on plugin page
             $plugin = plugin_basename(__FILE__);
@@ -76,7 +75,7 @@ if(!class_exists('SD_Sage_Donate'))
                 mailinglist tinyint(1) DEFAULT '0' NOT NULL,
                 amount numeric(10,2) DEFAULT '0' NOT NULL,
                 currency varchar(3) DEFAULT 'GBP' NOT NULL,
-                status varchar(15) DEFAULT 'NOT STARTED' NOT NULL,
+                status varchar(255) DEFAULT 'NOT STARTED' NOT NULL,
                 sage_vendortx varchar(255) DEFAULT '' NOT NULL,
                 sage_vpstx_id varchar(255) DEFAULT '' NOT NULL,
                 UNIQUE KEY id (id)
@@ -178,7 +177,6 @@ if(!class_exists('SD_Sage_Donate'))
                     require_once ('lib/sagepay/lib/SagePay.php');
                     $sagePay = new SagePay();
                     self::$input_data['sage_vendortx'] = $sagePay->getVendorTxCode();
-                    echo self::$input_data['sage_vendortx'];
 
                     // 1 | Save to database
                     self::save_donation_to_db();
@@ -290,7 +288,7 @@ if(!class_exists('SD_Sage_Donate'))
                     'amount'        => self::$input_data['amount'],
                     'currency'      => self::$input_data['currency'],
                     'status'        => 'SENT TO SAGEPAY',
-                    'sage_vendortx'        => self::$input_data['sage_vendortx']
+                    'sage_vendortx' => self::$input_data['sage_vendortx']
                 )
             );
             return $wpdb->insert_id;
@@ -313,10 +311,11 @@ if(!class_exists('SD_Sage_Donate'))
         /**
          * Success page
          */
-        public function show_success_page()
+        public function post_donation()
         {
             if (!isset($_GET['crypt'])) { return; }
 
+            // 0 | Set up
             require_once ('lib/sagepay/lib/SagePay.php');
             $sagePay = new SagePay();
 
@@ -324,11 +323,11 @@ if(!class_exists('SD_Sage_Donate'))
             $crypt = $_GET['crypt'];
             $decoded = $sagePay->decode($crypt);
 
-            // 2 | Look up record id in database based on `VendorTxCode`
+            // 2 | Look up record id ($donation->id) in database based on `VendorTxCode`
+            //$donation = self::select_donation_detail($decoded['VendorTxCode']);
 
-
-            // 3 | Update record with donation amount, success/fail, amount and `VPSTxId`
-
+            // 3 | Update record with donation amount, success/fail and `VPSTxId`
+            self::update_donation_detail($decoded['VendorTxCode'], $decoded);
 
             // 4 | Send notification email to admin
 
@@ -350,6 +349,39 @@ if(!class_exists('SD_Sage_Donate'))
         {
             return preg_match("/^-?[0-9]+(?:\.[0-9]{1,2})?$/", $number);
         } // END currency check
+
+        /*
+         * Selects record from database based on sage_vendortx
+         * In:  Sage Vendo Tx Code
+         * Out: Donation information
+         */
+        protected function select_donation_detail($vendortxcode)
+        {
+            global $wpdb;
+            global $sb_db_tablename;
+            $query = "SELECT * FROM " . $sb_db_tablename . " WHERE sage_vendortx = '" . $vendortxcode . "' LIMIT 1;";
+            return $wpdb->get_row($query);
+        } // END select donation detail
+
+        /*
+         * Updates donation record with new information from SagePay
+         * In:  array- status, amount, sage_vpstx_id
+         * Out: null
+         */
+        protected function update_donation_detail($vendortxcode, $data) {
+            global $wpdb;
+            global $sb_db_tablename;
+
+            $t = $wpdb->update(
+                $sb_db_tablename,
+                array(
+                    'amount' => $data['Amount'],  // string
+                    'status' => $data['StatusDetail'],   // integer (number)
+                    'sage_vpstx_id' => $data['VPSTxId']   // integer (number)
+                ),
+                array( 'sage_vendortx' => $vendortxcode )
+            );
+        } // END update dontation detail
 
 
     } // END class SD_Sage_Donate
