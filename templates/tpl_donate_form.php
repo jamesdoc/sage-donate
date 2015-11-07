@@ -1,5 +1,7 @@
 <form method="POST" class="sagedonateform" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>">
 
+    <p>* - Required field</p>
+
     <fieldset class="sagedonateform__amount">
         <p>
             <?php if(in_array('txt_amount', $user_validation)){ echo '<small class="validation">This field must be a number. eg: 10.50</small><br />'; } ?>
@@ -18,19 +20,19 @@
 
         <p>
             <?php if(in_array('txt_name_last', $user_validation)){ echo '<small class="validation">This is required. eg: Smith</small><br />'; } ?>
-            <label for="txt_name_last">Surname name <span class="required">*</span></label>
+            <label for="txt_name_last">Surname <span class="required">*</span></label>
             <input type="text" name="txt_name_last" id="txt_name_last" value="<?php if(isset($user_input['name_last'])){ echo $user_input['name_last']; } ?>" />
         </p>
 
         <p>
             <?php if(in_array('txt_email', $user_validation)){ echo '<small class="validation">This field must be a valid email address. eg: info@innovista.org</small><br />'; } ?>
-            <label for="txt_email">Primary email address <span class="required">*</span></label>
+            <label for="txt_email">Email <span class="required">*</span></label>
             <input type="email" name="txt_email" id="txt_email" value="<?php if(isset($user_input['email'])){ echo $user_input['email']; } ?>" />
         </p>
 
         <p>
             <?php if(in_array('txt_phone', $user_validation)){ echo '<small class="validation">This field must be a valid phone number.</small><br />'; } ?>
-            <label for="txt_phone">Primary phone number</label>
+            <label for="txt_phone">Phone number</label>
             <input type="text" name="txt_phone" id="txt_phone" value="<?php if(isset($user_input['phone'])){ echo $user_input['phone']; } ?>" />
         </p>
     </fieldset>
@@ -73,12 +75,18 @@
 
 
     <fieldset class="sagedonateform__giftaid">
-        <p>Are you a UK tax payer?</p>
-        <p>If you are a UK taxpayer, Gift Aid offers a simple way to increase the value of your gift by 25%. Tick the relevant box below and we will reclaim the tax paid on your gifts.</p>
+        <h2>Are you a UK tax payer?</h2>
+        <p>If you are a UK taxpayer, the value of your gift can be increased by 25% under the Gift Aid scheme at no extra cost to you.</p>
+        <p>I understand that I must pay an amount of UK income Tax and/or Capital Gains Tax, excluding VAT and Council tax, at least equal to the tax that charities reclaim on my donations (currently 25p for every £1 donated).</p>
+        <p>Please tick the box below to join the Gift Aid scheme.</p>
         <p>
             <label>
-            <input type="checkbox" name="chk_giftaid" id="chk_giftaid" value="1" <?php if(isset($user_input['giftaid']) && $user_input['giftaid'] == 1){ echo 'checked'; } ?>/>
-                <label for="chk_giftaid">GiftAid my donation</label>
+                <input type="radio" name="chk_giftaid" id="chk_giftaid" value="1" <?php if(!isset($user_input['giftaid']) || (isset($user_input['giftaid']) && $user_input['giftaid'] == 1)){ echo 'checked'; } ?>/>
+                <label for="chk_giftaid">I am a UK taxpayer and I would like all the donations I make from 1 April 2008, until I notify you otherwise, as Gift Aid donations.</label>
+            </label><br />
+            <label>
+                <input type="radio" name="chk_giftaid" id="chk_giftaid" value="0" <?php if(isset($user_input['giftaid']) && $user_input['giftaid'] == 0){ echo 'checked'; } ?>/>
+                <label>I am not a UK taxpayer.</label>
             </label>
         </p>
     </fieldset>
@@ -88,8 +96,8 @@
         <p></p>
         <p>
             <label>
-            <input type="checkbox" name="chk_mailinglist" id="chk_mailinglist" value="1" <?php if(isset($user_input['mailinglist']) && $user_input['mailinglist'] == 1){ echo 'checked'; } ?>/>
-                <label for="chk_mailinglist">Add me to the mailing list</label>
+            <input type="checkbox" name="chk_mailinglist" id="chk_mailinglist" value="1" <?php if(!isset($user_input['mailinglist']) || (isset($user_input['mailinglist']) && $user_input['mailinglist'] == 1)){ echo 'checked'; } ?>/>
+                <label for="chk_mailinglist">Let me know how my money makes a difference**</label>
             </label>
         </p>
     </fieldset>
@@ -97,5 +105,7 @@
     <?php wp_nonce_field( 'post_nonce', 'post_nonce_field' ); ?>
     <input type="hidden" id="hdn_currency" name="hdn_currency" value="<?php echo $currency; ?>" />
     <input type="submit" id="btn_submit" name="btn_submit" class="btn" />
+
+    <p>** We’ll keep you updated by email and post. You can unsubscribe at any time and we will <strong>never</strong> pass your details on.</p>
 
 </form>
