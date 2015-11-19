@@ -179,8 +179,25 @@ if(!class_exists('SD_Sage_Donate'))
                 wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
             }
 
-            // Investigate - http://wpengineer.com/2426/wp_list_table-a-step-by-step-guide/
-            $donations = self::select_all_donations();
+            $number_of_results_to_display = 15;
+
+            // What page of results are we on?
+            $page = 1;
+            if (isset($_GET['paged'])) {
+                $page = (int) sanitize_text_field($_GET['paged']);
+                if (!is_int($page) || $page < 1) { $page = 1;}
+            }
+
+            // Make a db call
+            $donations = self::select_all_donations(null, $page, $number_of_results_to_display);
+            $total_donations = self::donation_count(null);
+
+            // Set up pagination config
+            $pagination_config = array(
+                'total' => round($total_donations / $number_of_results_to_display),
+                'current' => max( 1, $page ),
+                'format' => '?paged=%#%',
+            );
 
             // Render the template
             include(sprintf("%s/templates/tpl_donation_viewer.php", dirname(__FILE__)));
@@ -394,11 +411,34 @@ if(!class_exists('SD_Sage_Donate'))
             return $wpdb->get_row($query);
         } // END select donation detail
 
-        protected function select_all_donations($filter = null, $offset = 0, $limit = 25)
+        /*
+         * Select the number of donations in the database
+         * In: TODO: filter [str] (optional) Not implemented
+         * Out: Number of records [int]
+         */
+        protected function donation_count($filter = null)
         {
             global $wpdb;
             global $sb_db_tablename;
-            $query = "SELECT * FROM thrv_sd_donations ORDER BY updated_time LIMIT " . $offset . ", " . $limit . ";";
+            $sql = "SELECT COUNT(*) FROM " . $sb_db_tablename . ";";
+            return $wpdb->get_var( $sql );
+        }
+
+        /*
+         * Selects paginated donation information
+         * In:  TODO: filter [str] (optional) Not implemented
+         * In:  page_number [int] Which page of results
+         * In:  per_page [int] Number of results to return
+         * Out: Donation information (array)
+         */
+        protected function select_all_donations($filter = null, $page_number = 1, $per_page = 15)
+        {
+            global $wpdb;
+            global $sb_db_tablename;
+            $query = "SELECT * FROM thrv_sd_donations " .
+                "ORDER BY updated_time " .
+                "LIMIT " . $per_page . " " .
+                "OFFSET " . ( $page_number - 1 ) * $per_page . ";";
             return $wpdb->get_results($query);
         } // END select_all_donations
 

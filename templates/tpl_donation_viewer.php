@@ -26,3 +26,7 @@
     <?php endforeach; ?>
 
 </table>
+
+<?php echo paginate_links( $pagination_config ); ?>
+
+<p><?php echo $total_donations; ?> donations</p>
