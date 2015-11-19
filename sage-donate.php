@@ -32,6 +32,7 @@ if(!class_exists('SD_Sage_Donate'))
             // register actions
             add_action('admin_init', array(&$this, 'admin_init'));
             add_action('admin_menu', array(&$this, 'add_menu'));
+            add_action('admin_menu', array(&$this, 'add_donation_administration_menu_item') );
             //add_action('template_redirect', array(&$this, 'check_for_post'));
 
             // register shortcodes for forms, etc
@@ -43,6 +44,7 @@ if(!class_exists('SD_Sage_Donate'))
             add_filter("plugin_action_links_$plugin", array(&$this, 'add_settings_link') );
 
         } // END public function __construct
+
 
 
         /**
@@ -119,12 +121,25 @@ if(!class_exists('SD_Sage_Donate'))
             register_setting('sd_sage_donate', 'sd_live_staging');
             register_setting('sd_sage_donate', 'sd_currency');
             register_setting('sd_sage_donate', 'sd_giftaid');
+            register_setting('sd_sage_donate', 'sd_mailing_list_signup');
+            register_setting('sd_sage_donate', 'sd_mailing_list_cta');
+            register_setting('sd_sage_donate', 'sd_redirect_message');
+            register_setting('sd_sage_donate', 'sd_footnote_message');
             register_setting('sd_sage_donate', 'sd_success_url');
             register_setting('sd_sage_donate', 'sd_failure_url');
             register_setting('sd_sage_donate', 'sd_notify_email');
             register_setting('sd_sage_donate', 'sd_confirmation');
             register_setting('sd_sage_donate', 'sd_confirmation_body');
         } // END public function init_custom_settings()
+
+        /**
+         * Add in the main donation admin page- where admins see who has donated
+         */
+        public function add_donation_administration_menu_item()
+        {
+            add_menu_page( 'View all donations', 'Donations', 'manage_options', 'sd-donation-admin', array(&$this, 'sd_donation_administration'), 'dashicons-chart-area' );
+        } // END add_donation_administration_menu_item
+
 
         /**
          * add a menu
@@ -155,6 +170,22 @@ if(!class_exists('SD_Sage_Donate'))
             // Render the settings template
             include(sprintf("%s/templates/tpl_settings.php", dirname(__FILE__)));
         } // END public function plugin_settings_page()
+
+        /**
+         * Show the donation admin page
+         */
+        public function sd_donation_administration() {
+            if ( !current_user_can( 'manage_options' ) )  {
+                wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
+            }
+
+            // Investigate - http://wpengineer.com/2426/wp_list_table-a-step-by-step-guide/
+            $donations = self::select_all_donations();
+
+            // Render the template
+            include(sprintf("%s/templates/tpl_donation_viewer.php", dirname(__FILE__)));
+
+        } // END sd_donation_administration
 
 
         public function check_for_post()
@@ -352,7 +383,7 @@ if(!class_exists('SD_Sage_Donate'))
 
         /*
          * Selects record from database based on sage_vendortx
-         * In:  Sage Vendo Tx Code
+         * In:  Sage Vendor Tx Code
          * Out: Donation information
          */
         protected function select_donation_detail($vendortxcode)
@@ -362,6 +393,14 @@ if(!class_exists('SD_Sage_Donate'))
             $query = "SELECT * FROM " . $sb_db_tablename . " WHERE sage_vendortx = '" . $vendortxcode . "' LIMIT 1;";
             return $wpdb->get_row($query);
         } // END select donation detail
+
+        protected function select_all_donations($filter = null, $offset = 0, $limit = 25)
+        {
+            global $wpdb;
+            global $sb_db_tablename;
+            $query = "SELECT * FROM thrv_sd_donations ORDER BY updated_time LIMIT " . $offset . ", " . $limit . ";";
+            return $wpdb->get_results($query);
+        } // END select_all_donations
 
         /*
          * Updates donation record with new information from SagePay

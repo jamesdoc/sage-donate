@@ -1,13 +1,13 @@
-<section>
+<section class="sd_redirect">
 
-    <p>To complete your donation you will be redirected to SagePay. If this does not happen automatically please click the 'Continue to SagePay' button.</p>
+    <p class="sd_redirect__message"><?php echo get_option('sd_redirect_message'); ?></p>
 
-    <form method="POST" id="SagePayForm" action="https://test.sagepay.com/gateway/service/vspform-register.vsp">
+    <form method="POST" class="sd_redirect__form" id="SagePayForm" action="https://test.sagepay.com/gateway/service/vspform-register.vsp">
         <input type="hidden" name="VPSProtocol" value= "3.00">
         <input type="hidden" name="TxType" value= "PAYMENT">
         <input type="hidden" name="Vendor" value= "innovista">
         <input type="hidden" name="Crypt" value= "<?php echo $crypt ?>">
-        <input type="submit" value="Continue to SagePay" class="btn">
+        <input type="submit" value="Continue to SagePay" class="sd_redirect__form__btn btn">
     </form>
 
 </section>

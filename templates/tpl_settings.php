@@ -5,7 +5,7 @@
         <?php @do_settings_fields('sd_sage_donate'); ?>
 
         <fieldset>
-            <legend>Sagepay Settings</legend>
+            <h3>Sagepay Settings</h3>
             <table class="form-table">
                 <tr valign="top">
                     <th scope="row"><label for="sd_vendor_id">Vendor ID</label></th>
@@ -39,11 +39,42 @@
                     <td><input type="checkbox" name="sd_giftaid" id="sd_giftaid" value="1"<?php if (get_option('sd_giftaid')==1) { echo ' checked="checked"'; } ?> /></td>
                 </tr>
 
+                <tr valign="top">
+                    <th scope="row"><label for="sd_footnote_message">Footnote message<br /><small>This text is shown directly below your form.</small></label></th>
+                    <td>
+                        <textarea class="large-text code" name="sd_footnote_message" id="sd_footnote_message"><?php echo get_option('sd_footnote_message'); ?></textarea>
+                    </td>
+                </tr>
+
+                <tr valign="top">
+                    <th scope="row"><label for="sd_redirect_message">Redirect message<br /><small>This text is shown briefly before redirecting to the SagePay gateway.</small></label></th>
+                    <td>
+                        <textarea class="large-text code" name="sd_redirect_message" id="sd_redirect_message"><?php echo get_option('sd_redirect_message'); ?></textarea>
+                    </td>
+                </tr>
+
             </table>
         </fieldset>
 
         <fieldset>
-            <legend>After donation</legend>
+            <h3>Mailing list</h3>
+
+            <table class="form-table">
+                <tr valign="top">
+                    <th scope="row"><label for="sd_mailing_list_signup">Invite users to sign up to mailing list</label></th>
+                    <td><input type="checkbox" name="sd_mailing_list_signup" id="sd_mailing_list_signup" value="1"<?php if (get_option('sd_mailing_list_signup')==1) { echo ' checked="checked"'; } ?> /></td>
+                </tr>
+
+                <tr valign="top">
+                    <th scope="row"><label for="sd_mailing_list_cta">Custom mailing list label<br /><small>Eg: Sign up to receive monthly updated about the charity</small></label></th>
+                    <td><input class="regular-text code" type="text" name="sd_mailing_list_cta" id="sd_mailing_list_cta" value="<?php echo get_option('sd_mailing_list_cta'); ?>" /></td>
+                </tr>
+            </table>
+
+        </fieldset>
+
+        <fieldset>
+            <h3>After donation</h3>
 
             <table class="form-table">
                 <tr valign="top">

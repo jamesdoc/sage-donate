@@ -73,7 +73,7 @@
         </p>
     </fieldset>
 
-
+    <?php if (get_option('sd_giftaid') == 1): ?>
     <fieldset class="sagedonateform__giftaid">
         <h2>Are you a UK tax payer?</h2>
         <p>If you are a UK taxpayer, the value of your gift can be increased by 25% under the Gift Aid scheme at no extra cost to you.</p>
@@ -90,22 +90,35 @@
             </label>
         </p>
     </fieldset>
+    <?php endif; // End check for gift aid ?>
 
-
+    <?php if (get_option('sd_mailing_list_signup') == 1): ?>
     <fieldset class="sagedonateform__mailinglist">
+        <?php
+            $cta = get_option('sd_mailing_list_cta');
+            if ($cta == "") { $cta = "Sign up to our newsletter?"; }
+        ?>
         <p></p>
         <p>
             <label>
             <input type="checkbox" name="chk_mailinglist" id="chk_mailinglist" value="1" <?php if(!isset($user_input['mailinglist']) || (isset($user_input['mailinglist']) && $user_input['mailinglist'] == 1)){ echo 'checked'; } ?>/>
-                <label for="chk_mailinglist">Let me know how my money makes a difference**</label>
+                <label for="chk_mailinglist"><?php echo $cta; ?></label>
             </label>
         </p>
     </fieldset>
+    <?php endif; // End check for mailing list sign up ?>
 
     <?php wp_nonce_field( 'post_nonce', 'post_nonce_field' ); ?>
     <input type="hidden" id="hdn_currency" name="hdn_currency" value="<?php echo $currency; ?>" />
     <input type="submit" id="btn_submit" name="btn_submit" class="btn" />
 
-    <p>** We’ll keep you updated by email and post. You can unsubscribe at any time and we will <strong>never</strong> pass your details on.</p>
+    <?php
+        $footnote = get_option('sd_footnote_message');
+        if ($footnote):
+    ?>
+    <div class="sagedonateform__footnote">
+        <p><?php echo $footnote; ?></p>
+    </div>
+    <?php endif; // End footnote check ?>
 
 </form>
