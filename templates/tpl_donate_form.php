@@ -3,10 +3,15 @@
     <p>* - Required field</p>
 
     <fieldset class="sagedonateform__amount">
+        <?php
+            $amount = '';
+            if(isset($user_input['amount'])){ $amount = $user_input['amount']; }
+            elseif (isset($_GET['amount'])){ $amount = $_GET['amount']; }
+        ?>
         <p>
             <?php if(in_array('txt_amount', $user_validation)){ echo '<small class="validation">This field must be a number. eg: 10.50</small><br />'; } ?>
             <label for="txt_amount">Amount <span class="required">*</span></label>
-            <input type="text" name="txt_amount" id="txt_amount" value="<?php if(isset($user_input['amount'])){ echo $user_input['amount']; } ?>" />
+            <input type="text" name="txt_amount" id="txt_amount" value="<?php echo $amount; ?>" />
         </p>
     </fieldset>
 
