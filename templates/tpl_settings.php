@@ -13,7 +13,7 @@
                 </tr>
 
                 <tr valign="top">
-                    <th scope="row"><label for="sd_vendor_passphrase">Vendor Passphrase<br /><small>This can be saved to wp_config.php instead</small></label></th>
+                    <th scope="row"><label for="sd_vendor_passphrase">Vendor Passphrase</label></th>
                     <td><input class="regular-text code" type="text" name="sd_vendor_passphrase" id="sd_vendor_passphrase" value="<?php echo get_option('sd_vendor_passphrase'); ?>" /></td>
                 </tr>
 

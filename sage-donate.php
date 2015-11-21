@@ -117,6 +117,7 @@ if(!class_exists('SD_Sage_Donate'))
         {
             // register the settings for this plugin
             register_setting('sd_sage_donate', 'sd_vendor_id');
+            // TODO: This should be put in an environment var
             register_setting('sd_sage_donate', 'sd_vendor_passphrase');
             register_setting('sd_sage_donate', 'sd_payment_description');
             register_setting('sd_sage_donate', 'sd_live_staging');
@@ -224,7 +225,7 @@ if(!class_exists('SD_Sage_Donate'))
                 } else {
 
                     // 0 | Set up ready for sagepay
-                    require_once ('lib/sagepay/lib/SagePay.php');
+                    require_once ('lib/SagePay.php');
                     $sagePay = new SagePay();
                     self::$input_data['sage_vendortx'] = $sagePay->getVendorTxCode();
                     $sage_description = get_option('sd_payment_description');
@@ -367,7 +368,7 @@ if(!class_exists('SD_Sage_Donate'))
             if (!isset($_GET['crypt'])) { return; }
 
             // 0 | Set up
-            require_once ('lib/sagepay/lib/SagePay.php');
+            require_once ('lib/SagePay.php');
             $sagePay = new SagePay();
 
             // 1 | Decode crypt from SagePay
