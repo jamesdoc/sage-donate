@@ -6,17 +6,28 @@ Tags: SagePay Donate Donation
 
 Current status: Work in Progress
 
-Hopefully this will be a simple way of accepting donations with SagePay
+Missing: 
+- Email notifications
+
+Planned:
+- Improved admin interface
 
 == Installation ==
 
 Copy into plugins folder
 
-Update `lib/sagepayForm-php/lib/SagePay.php:54`
+Update plugin settings (Settings / Sage Donate)
 
-Update plugin settings
+Create three new pages:
 
-Add widget code to give page
+*Donate* - Where a user makes a donation  
+Add `[sage_donate]`
+
+*Success page* - Where Sage redirects the user after successful payment  
+Add `[sage_after_donate]`
+
+*Failure* - Where Sage redirects the user if the payment fails  
+Add `[sage_after_donate]`
 
 Onwards!
 
