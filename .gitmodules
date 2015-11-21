@@ -1,3 +1,0 @@
-[submodule "lib/sagepay"]
-	path = lib/sagepay
-	url = git@github.com:tolzhabayev/sagepayForm-php.git
