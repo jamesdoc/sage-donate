@@ -173,6 +173,7 @@ if(!class_exists('SD_Sage_Donate'))
 
         /**
          * Show the donation admin page
+         * TODO: Add some form of data export to CSV
          */
         public function sd_donation_administration() {
             if ( !current_user_can( 'manage_options' ) )  {
