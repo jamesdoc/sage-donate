@@ -18,6 +18,11 @@
                 </tr>
 
                 <tr valign="top">
+                    <th scope="row"><label for="sd_payment_description">Payment Description<br /><small>Text sent to SagePay to describe the payment (eg: Online donation)</small></label></th>
+                    <td><input class="regular-text code" type="text" name="sd_payment_description" id="sd_payment_description" value="<?php echo get_option('sd_payment_description'); ?>" /></td>
+                </tr>
+
+                <tr valign="top">
                     <th scope="row"><label for="live_staging">Plugin status</label></th>
                     <td>
                         <label><input type="radio" name="sd_live_staging" id="sd_live_staging" value="testing"<?php if (get_option('sd_live_staging')=='testing') { echo ' checked="checked"'; } ?> /> Testing</label><br />

@@ -118,6 +118,7 @@ if(!class_exists('SD_Sage_Donate'))
             // register the settings for this plugin
             register_setting('sd_sage_donate', 'sd_vendor_id');
             register_setting('sd_sage_donate', 'sd_vendor_passphrase');
+            register_setting('sd_sage_donate', 'sd_payment_description');
             register_setting('sd_sage_donate', 'sd_live_staging');
             register_setting('sd_sage_donate', 'sd_currency');
             register_setting('sd_sage_donate', 'sd_giftaid');
@@ -226,6 +227,7 @@ if(!class_exists('SD_Sage_Donate'))
                     require_once ('lib/sagepay/lib/SagePay.php');
                     $sagePay = new SagePay();
                     self::$input_data['sage_vendortx'] = $sagePay->getVendorTxCode();
+                    $sage_description = get_option('sd_payment_description');
 
                     // 1 | Save to database
                     self::save_donation_to_db();
@@ -233,7 +235,7 @@ if(!class_exists('SD_Sage_Donate'))
                     // 2 | Format for SagePay
                     $sagePay->setCurrency(self::$input_data['currency']);
                     $sagePay->setAmount(self::$input_data['amount']);
-                    $sagePay->setDescription('Thrive');
+                    $sagePay->setDescription($sage_description);
                     $sagePay->setBillingFirstnames(self::$input_data['name_first']);
                     $sagePay->setBillingSurname(self::$input_data['name_last']);
                     $sagePay->setBillingCity(self::$input_data['city']);
