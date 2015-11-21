@@ -107,9 +107,12 @@
                     <th scope="row"><label for="sd_confirmation">Send a confirmation email to donor</label></th>
                     <td>
                         <input type="checkbox" name="sd_confirmation" id="sd_confirmation" value="1"<?php if (get_option('sd_confirmation')==1) { echo ' checked="checked"'; } ?> /><br />
-                        <p>
+                        <?php
+                            $contents = get_option('sd_confirmation_body');
+                            wp_editor( $contents , 'sd_confirmation_body', $settings = array('textarea_name'=>'sd_confirmation_body') ); ?>
+                        <?php /*<p>
                             <textarea class="large-text code" name="sd_confirmation_body" id="sd_confirmation_body"><?php echo get_option('sd_confirmation_body'); ?></textarea>
-                        </p>
+                        </p> */ ?>
                     </td>
                 </tr>
 

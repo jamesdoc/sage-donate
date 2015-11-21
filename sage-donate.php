@@ -139,7 +139,13 @@ if(!class_exists('SD_Sage_Donate'))
          */
         public function add_donation_administration_menu_item()
         {
-            add_menu_page( 'View all donations', 'Donations', 'manage_options', 'sd-donation-admin', array(&$this, 'sd_donation_administration'), 'dashicons-chart-area' );
+            add_menu_page(
+                'View all donations',
+                'Donations',
+                'manage_options',
+                'sd-donation-admin',
+                array(&$this, 'sd_donation_administration'),
+                'dashicons-chart-area');
         } // END add_donation_administration_menu_item
 
 
@@ -148,7 +154,12 @@ if(!class_exists('SD_Sage_Donate'))
          */
         public function add_menu()
         {
-            add_options_page('Sage Donate Settings', 'Sage Donate', 'manage_options', 'sd_sage_donate', array(&$this, 'plugin_settings_page'));
+            add_options_page(
+                'Sage Donate Settings',
+                'Sage Donate',
+                'manage_options',
+                'sd_sage_donate',
+                array(&$this, 'plugin_settings_page'));
         } // END public function add_menu()
 
         // Add settings link on plugin page
@@ -192,7 +203,10 @@ if(!class_exists('SD_Sage_Donate'))
             }
 
             // Make a db call
-            $donations = self::select_all_donations(null, $page, $number_of_results_to_display);
+            $donations = self::select_all_donations(
+                null,
+                $page,
+                $number_of_results_to_display);
             $total_donations = self::donation_count(null);
 
             // Set up pagination config
@@ -203,7 +217,9 @@ if(!class_exists('SD_Sage_Donate'))
             );
 
             // Render the template
-            include(sprintf("%s/templates/tpl_donation_viewer.php", dirname(__FILE__)));
+            include(sprintf(
+                "%s/templates/tpl_donation_viewer.php",
+                dirname(__FILE__)));
 
         } // END sd_donation_administration
 
@@ -252,7 +268,9 @@ if(!class_exists('SD_Sage_Donate'))
                     $crypt = $sagePay->getCrypt();
 
                     // 3 | Tell the user that we're going to redirect them to SagePay
-                    include(sprintf("%s/templates/tpl_sage_redirect.php", dirname(__FILE__)));
+                    include(sprintf(
+                        "%s/templates/tpl_sage_redirect.php",
+                        dirname(__FILE__)));
                     return TRUE;
                 }
             }
@@ -356,7 +374,9 @@ if(!class_exists('SD_Sage_Donate'))
                 $user_input = self::$input_data;
                 $user_validation = self::$validation;
                 $currency = get_option( 'sd_currency' , 'GBP' );
-                include(sprintf("%s/templates/tpl_donate_form.php", dirname(__FILE__)));
+                include(sprintf(
+                    "%s/templates/tpl_donate_form.php",
+                    dirname(__FILE__)));
             }
         } // END donation form
 
@@ -375,19 +395,37 @@ if(!class_exists('SD_Sage_Donate'))
             $crypt = $_GET['crypt'];
             $decoded = $sagePay->decode($crypt);
 
-            // 2 | Look up record id ($donation->id) in database based on `VendorTxCode`
-            //$donation = self::select_donation_detail($decoded['VendorTxCode']);
-
-            // 3 | Update record with donation amount, success/fail and `VPSTxId`
+            // 2 | Update record with donation amount, success/fail & `VPSTxId`
             self::update_donation_detail($decoded['VendorTxCode'], $decoded);
 
+            // 3 | Look up donation details
+            $donation = self::select_donation_detail($decoded['VendorTxCode']);
+
             // 4 | Send notification email to admin
+            $headers = array('Content-Type: text/html; charset=UTF-8');
+            if ($notification_address = get_option('sd_notify_email')) {
+                include(
+                    sprintf("%s/templates/tpl_admin_notification_email.php",
+                    dirname(__FILE__)));
+                $mail = wp_mail(
+                    $notification_address,
+                    'Online donation',
+                    $email_content,
+                    $headers);
+            }
 
-
-            // 5 | if success send a success email
-
-
-            // 6 | if fail send a fail email
+            // 5 | Send a thank you email if the donation goes through
+            if(get_option('sd_confirmation') &&
+               $message = get_option('sd_confirmation_body')) {
+                echo $message;
+                if (strpos($donation->status, 'success')) {
+                    $mail = wp_mail(
+                        $donation->email,
+                        'Thank you',
+                        $message,
+                        $headers);
+                }
+            }
 
 
         } // END success page
@@ -473,8 +511,12 @@ if(!class_exists('SD_Sage_Donate'))
 if(class_exists('SD_Sage_Donate'))
 {
     // Installation and uninstallation hooks
-    register_activation_hook(__FILE__, array('SD_Sage_Donate', 'activate'));
-    register_deactivation_hook(__FILE__, array('SD_Sage_Donate', 'deactivate'));
+    register_activation_hook(
+        __FILE__,
+        array('SD_Sage_Donate', 'activate'));
+    register_deactivation_hook(
+        __FILE__,
+        array('SD_Sage_Donate', 'deactivate'));
 
     // instantiate the plugin class
     $wp_plugin_template = new SD_Sage_Donate();
