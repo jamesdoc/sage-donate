@@ -438,7 +438,7 @@ if(!class_exists('SD_Sage_Donate'))
         {
             global $wpdb;
             global $sb_db_tablename;
-            $query = "SELECT * FROM thrv_sd_donations " .
+            $query = "SELECT * FROM " . $sb_db_tablename . " " .
                 "ORDER BY updated_time " .
                 "LIMIT " . $per_page . " " .
                 "OFFSET " . ( $page_number - 1 ) * $per_page . ";";
