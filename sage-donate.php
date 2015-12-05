@@ -17,6 +17,10 @@ if(!class_exists('SD_Sage_Donate'))
 
         public static $input_data = array();
         public static $validation = array('hi'=>'yes');
+        public static $sage_url = array(
+            'test' => "https://test.sagepay.com/gateway/service/vspform-register.vsp",
+            'live' => "https:/live.sagepay.com/gateway/service/vspform-register.vsp",
+        );
 
         /**
          * Construct the plugin object

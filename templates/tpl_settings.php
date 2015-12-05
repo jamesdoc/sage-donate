@@ -25,7 +25,7 @@
                 <tr valign="top">
                     <th scope="row"><label for="live_staging">Plugin status</label></th>
                     <td>
-                        <label><input type="radio" name="sd_live_staging" id="sd_live_staging" value="testing"<?php if (get_option('sd_live_staging')=='testing') { echo ' checked="checked"'; } ?> /> Testing</label><br />
+                        <label><input type="radio" name="sd_live_staging" id="sd_live_staging" value="test"<?php if (get_option('sd_live_staging')=='testing') { echo ' checked="checked"'; } ?> /> Testing</label><br />
                         <label><input type="radio" name="sd_live_staging" id="sd_live_staging" value="live"<?php if (get_option('sd_live_staging')=='live') { echo ' checked="checked"'; } ?> /> Live</label>
                     </td>
                 </tr>
@@ -86,7 +86,7 @@
                     <th scope="row"><label for="sd_success_url">Success URL</label></th>
                     <td>
                         <input class="regular-text code" type="text" name="sd_success_url" id="sd_success_url" value="<?php echo get_option('sd_success_url'); ?>" /><br />
-                        <small>Remember to add the <code>[sage_donate_success]</code> tag to this page.</small>
+                        <small>Remember to add the <code>[post_donation]</code> tag to this page.</small>
                     </td>
                 </tr>
 
@@ -94,7 +94,7 @@
                     <th scope="row"><label for="sd_failure_url">Failure URL</label></th>
                     <td>
                         <input class="regular-text code" type="text" name="sd_failure_url" id="sd_failure_url" value="<?php echo get_option('sd_failure_url'); ?>" /><br />
-                        <small>Remember to add the <code>[sage_donate_failure]</code> tag to this page.</small>
+                        <small>Remember to add the <code>[post_donation]</code> tag to this page.</small>
                     </td>
                 </tr>
 
