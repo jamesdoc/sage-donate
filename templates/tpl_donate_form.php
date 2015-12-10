@@ -1,6 +1,6 @@
 <form method="POST" class="sagedonateform" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>">
 
-    <p>* - Required field</p>
+    <p class="required">* - Required field</p>
 
     <fieldset class="sagedonateform__amount">
         <?php
@@ -30,7 +30,7 @@
         </p>
 
         <p>
-            <?php if(in_array('txt_email', $user_validation)){ echo '<small class="validation">This field must be a valid email address. eg: info@innovista.org</small><br />'; } ?>
+            <?php if(in_array('txt_email', $user_validation)){ echo '<small class="validation">This field must be a valid email address. eg: lindsay.smith@example.com</small><br />'; } ?>
             <label for="txt_email">Email <span class="required">*</span></label>
             <input type="email" name="txt_email" id="txt_email" value="<?php if(isset($user_input['email'])){ echo $user_input['email']; } ?>" />
         </p>
