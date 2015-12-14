@@ -321,9 +321,10 @@ if(!class_exists('SD_Sage_Donate'))
             if (self::$input_data['country'] == "")          { self::$validation[] = 'cbo_country'; }
             if (self::$input_data['amount'] == "")           { self::$validation[] = 'txt_amount'; }
 
-            if (!$this->isCurrency(self::$input_data['amount'])){
+            $test_value = str_replace(array('€','£','$'), '', self::$input_data['amount']);
+            if (!$this->isCurrency($test_value)){
                 self::$validation[] = 'txt_amount';
-            } else { self::$input_data['amount'] = floatval(self::$input_data['amount']); }
+            } else { self::$input_data['amount'] = self::$input_data['amount']; }
 
             if ( empty(self::$validation)) {
                 self::$validation = TRUE;

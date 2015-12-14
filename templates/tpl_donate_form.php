@@ -115,7 +115,7 @@
 
     <?php wp_nonce_field( 'post_nonce', 'post_nonce_field' ); ?>
     <input type="hidden" id="hdn_currency" name="hdn_currency" value="<?php echo $currency; ?>" />
-    <input type="submit" id="btn_submit" name="btn_submit" class="btn" />
+    <input type="submit" id="btn_submit" name="btn_submit" class="btn btn--submit" value="Next" />
 
     <?php
         $footnote = get_option('sd_footnote_message');
