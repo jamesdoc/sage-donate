@@ -25,7 +25,7 @@
                 <tr valign="top">
                     <th scope="row"><label for="live_staging">Plugin status</label></th>
                     <td>
-                        <label><input type="radio" name="sd_live_staging" id="sd_live_staging" value="test"<?php if (get_option('sd_live_staging')=='testing') { echo ' checked="checked"'; } ?> /> Testing</label><br />
+                        <label><input type="radio" name="sd_live_staging" id="sd_live_staging" value="test"<?php if (get_option('sd_live_staging')=='test') { echo ' checked="checked"'; } ?> /> Test</label><br />
                         <label><input type="radio" name="sd_live_staging" id="sd_live_staging" value="live"<?php if (get_option('sd_live_staging')=='live') { echo ' checked="checked"'; } ?> /> Live</label>
                     </td>
                 </tr>

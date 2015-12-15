@@ -259,7 +259,8 @@ if(!class_exists('SD_Sage_Donate'))
                             array('€','£','$'),
                             '',
                             self::$input_data['amount']));
-                    $sagePay->setCurrency(self::$input_data['currency']);
+                    $currency = get_option( 'sd_currency' , 'GBP' );
+                    $sagePay->setCurrency($currency);
                     $sagePay->setAmount($amount);
                     $sagePay->setDescription($sage_description);
                     $sagePay->setBillingFirstnames(self::$input_data['name_first']);
