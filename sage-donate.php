@@ -254,8 +254,13 @@ if(!class_exists('SD_Sage_Donate'))
                     self::save_donation_to_db();
 
                     // 2 | Format for SagePay
+                    $amount = floatval(
+                        str_replace(
+                            array('€','£','$'),
+                            '',
+                            self::$input_data['amount']));
                     $sagePay->setCurrency(self::$input_data['currency']);
-                    $sagePay->setAmount(self::$input_data['amount']);
+                    $sagePay->setAmount($amount);
                     $sagePay->setDescription($sage_description);
                     $sagePay->setBillingFirstnames(self::$input_data['name_first']);
                     $sagePay->setBillingSurname(self::$input_data['name_last']);

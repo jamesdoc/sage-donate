@@ -17,4 +17,4 @@
 
 </section>
 
-<script>setTimeout(function(){document.getElementById("SagePayForm").submit();},3000);</script>
+<script>setTimeout(function(){document.getElementById("SagePayForm").submit();}, 3000);</script>
