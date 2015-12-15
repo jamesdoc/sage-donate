@@ -428,8 +428,7 @@ if(!class_exists('SD_Sage_Donate'))
             // 5 | Send a thank you email if the donation goes through
             if(get_option('sd_confirmation') &&
                $message = get_option('sd_confirmation_body')) {
-                echo $message;
-                if (strpos($donation->status, 'success')) {
+                if (strpos($donation->status, 'Successful')) {
                     $mail = wp_mail(
                         $donation->email,
                         'Thank you',
