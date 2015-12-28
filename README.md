@@ -1,18 +1,8 @@
-=== Sage Donate ===
-Contributors: thejamesdoc
-Tags: SagePay Donate Donation
-
-== Description ==
+# Sage Donate
 
 Current status: Work in Progress
 
-Missing: 
-- Email notifications
-
-Planned:
-- Improved admin interface
-
-== Installation ==
+## Installation
 
 Copy into plugins folder
 
@@ -29,6 +19,11 @@ Add `[sage_after_donate]`
 *Failure* - Where Sage redirects the user if the payment fails  
 Add `[sage_after_donate]`
 
-Onwards!
 
-== Changelog ==
+## Roadmap
+
+- Improve admin settings design
+- CSV export
+- Encryption
+- Basic styling
+- Editable Gift Aid blurb
