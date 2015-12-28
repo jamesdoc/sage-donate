@@ -541,21 +541,30 @@ if(!class_exists('SagePay'))
 
 		protected function encryptAndEncode($strIn) {
 			$strIn = $this->pkcs5_pad($strIn, 16);
-			$p = get_option('sd_vendor_passphrase');
+			$p = $this->getPassphrase();
 			return "@".bin2hex(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $p, $strIn, MCRYPT_MODE_CBC, $p));
 		}
 
 		protected function decodeAndDecrypt($strIn) {
 			$strIn = substr($strIn, 1);
 			$strIn = pack('H*', $strIn);
-			$p = get_option('sd_vendor_passphrase');
+			$p = $this->getPassphrase();
 			return mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $p, $strIn, MCRYPT_MODE_CBC, $p);
 		}
-
 
 		protected function pkcs5_pad($text, $blocksize)	{
 			$pad = $blocksize - (strlen($text) % $blocksize);
 			return $text . str_repeat(chr($pad), $pad);
+		}
+
+		protected function getPassphrase() {
+			$test_or_live = get_option('sd_live_staging');
+			if( $test_or_live == 'live') {
+				$passphrase = get_option('sd_vendor_passphrase_live');
+			} else {
+				$passphrase = get_option('sd_vendor_passphrase_test');
+			}
+			return $passphrase;
 		}
 	}
 }

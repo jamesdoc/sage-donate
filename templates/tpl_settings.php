@@ -13,13 +13,13 @@
                 </tr>
 
                 <tr valign="top">
-                    <th scope="row"><label for="sd_vendor_passphrase">Vendor Passphrase</label></th>
-                    <td><input class="regular-text code" type="text" name="sd_vendor_passphrase" id="sd_vendor_passphrase" value="<?php echo get_option('sd_vendor_passphrase'); ?>" /></td>
+                    <th scope="row"><label for="sd_vendor_passphrase_test">Vendor Passphrase (Test)</label></th>
+                    <td><input class="regular-text code" type="text" name="sd_vendor_passphrase_test" id="sd_vendor_passphrase_test" value="<?php echo get_option('sd_vendor_passphrase_test'); ?>" /></td>
                 </tr>
 
                 <tr valign="top">
-                    <th scope="row"><label for="sd_payment_description">Payment Description<br /><small>Text sent to SagePay to describe the payment (eg: Online donation)</small></label></th>
-                    <td><input class="regular-text code" type="text" name="sd_payment_description" id="sd_payment_description" value="<?php echo get_option('sd_payment_description'); ?>" /></td>
+                    <th scope="row"><label for="sd_vendor_passphrase_live">Vendor Passphrase (Live)</label></th>
+                    <td><input class="regular-text code" type="text" name="sd_vendor_passphrase_live" id="sd_vendor_passphrase_live" value="<?php echo get_option('sd_vendor_passphrase_live'); ?>" /></td>
                 </tr>
 
                 <tr valign="top">
@@ -28,6 +28,19 @@
                         <label><input type="radio" name="sd_live_staging" id="sd_live_staging" value="test"<?php if (get_option('sd_live_staging')=='test') { echo ' checked="checked"'; } ?> /> Test</label><br />
                         <label><input type="radio" name="sd_live_staging" id="sd_live_staging" value="live"<?php if (get_option('sd_live_staging')=='live') { echo ' checked="checked"'; } ?> /> Live</label>
                     </td>
+                </tr>
+            </table>
+        </fieldset>
+
+        <hr />
+
+        <fieldset>
+            <h3>Donate Form Settings</h3>
+            <table class="form-table">
+
+                <tr valign="top">
+                    <th scope="row"><label for="sd_payment_description">Payment Description<br /><small>Text sent to SagePay to describe the payment (eg: Online donation)</small></label></th>
+                    <td><input class="regular-text code" type="text" name="sd_payment_description" id="sd_payment_description" value="<?php echo get_option('sd_payment_description'); ?>" /></td>
                 </tr>
 
                 <tr valign="top">
@@ -61,6 +74,8 @@
             </table>
         </fieldset>
 
+        <hr />
+
         <fieldset>
             <h3>Mailing list</h3>
 
@@ -77,6 +92,8 @@
             </table>
 
         </fieldset>
+
+        <hr />
 
         <fieldset>
             <h3>After donation</h3>
@@ -107,12 +124,11 @@
                     <th scope="row"><label for="sd_confirmation">Send a confirmation email to donor</label></th>
                     <td>
                         <input type="checkbox" name="sd_confirmation" id="sd_confirmation" value="1"<?php if (get_option('sd_confirmation')==1) { echo ' checked="checked"'; } ?> /><br />
+                        <br />
                         <?php
                             $contents = get_option('sd_confirmation_body');
-                            wp_editor( $contents , 'sd_confirmation_body', $settings = array('textarea_name'=>'sd_confirmation_body') ); ?>
-                        <?php /*<p>
-                            <textarea class="large-text code" name="sd_confirmation_body" id="sd_confirmation_body"><?php echo get_option('sd_confirmation_body'); ?></textarea>
-                        </p> */ ?>
+                            wp_editor( $contents , 'sd_confirmation_body', $settings = array('textarea_name'=>'sd_confirmation_body') );
+                        ?>
                     </td>
                 </tr>
 

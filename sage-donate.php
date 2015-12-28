@@ -30,7 +30,7 @@ if(!class_exists('SD_Sage_Donate'))
             global $sd_db_version;
             global $sb_db_tablename;
             global $wpdb;
-            $sd_db_version = '1.0';
+            $sd_db_version = '1.0.1';
             $sb_db_tablename = $wpdb->prefix . 'sd_donations';
 
             // register actions
@@ -38,6 +38,7 @@ if(!class_exists('SD_Sage_Donate'))
             add_action('admin_menu', array(&$this, 'add_menu'));
             add_action('admin_menu', array(&$this, 'add_donation_administration_menu_item') );
             //add_action('template_redirect', array(&$this, 'check_for_post'));
+            add_action( 'plugins_loaded', array(&$this, 'sd_update_checker') );
 
             // register shortcodes for forms, etc
             add_shortcode('sage_donate', array(&$this, 'show_donate_form'));
@@ -46,6 +47,7 @@ if(!class_exists('SD_Sage_Donate'))
             // Add setting link on plugin page
             $plugin = plugin_basename(__FILE__);
             add_filter("plugin_action_links_$plugin", array(&$this, 'add_settings_link') );
+
 
         } // END public function __construct
 
@@ -94,6 +96,31 @@ if(!class_exists('SD_Sage_Donate'))
         } // END public function activate
 
 
+        /**
+         * Update checker
+         **/
+        public static function sd_update_checker()
+        {
+            global $sd_db_version;
+            $current_version = get_option( 'sd_db_version' );
+            if ( $current_version  != $sd_db_version ) {
+
+                // Step through each update
+
+                if ($current_version == '1.0') {
+                    include_once('updates/sd-1-0-1.php');
+                }
+
+                /*
+                if ($current_version == 1.0.1) {
+                    // Do something
+                }
+                */
+
+                // Mark update complete
+                update_option( 'sd_db_version', $current_version);
+            }
+        }
 
 
         /**
@@ -121,8 +148,9 @@ if(!class_exists('SD_Sage_Donate'))
         {
             // register the settings for this plugin
             register_setting('sd_sage_donate', 'sd_vendor_id');
-            // TODO: This should be put in an environment var
-            register_setting('sd_sage_donate', 'sd_vendor_passphrase');
+            // TODO: These should be put in an environment var
+            register_setting('sd_sage_donate', 'sd_vendor_passphrase_test');
+            register_setting('sd_sage_donate', 'sd_vendor_passphrase_live');
             register_setting('sd_sage_donate', 'sd_payment_description');
             register_setting('sd_sage_donate', 'sd_live_staging');
             register_setting('sd_sage_donate', 'sd_currency');
@@ -385,6 +413,7 @@ if(!class_exists('SD_Sage_Donate'))
                 $user_input = self::$input_data;
                 $user_validation = self::$validation;
                 $currency = get_option( 'sd_currency' , 'GBP' );
+                $status = get_option( 'sd_live_staging' , 'live' );
                 include(sprintf(
                     "%s/templates/tpl_donate_form.php",
                     dirname(__FILE__)));

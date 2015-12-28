@@ -1,3 +1,9 @@
+<?php if ($status == 'test'): ?>
+<div class="msg msg--alert">
+    You are currently using the test SagePay gateway...
+</div>
+<?php endif; ?>
+
 <form method="POST" class="sagedonateform" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>">
 
     <p class="required">* - Required field</p>
