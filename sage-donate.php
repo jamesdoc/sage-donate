@@ -162,6 +162,7 @@ if(!class_exists('SD_Sage_Donate'))
             register_setting('sd_sage_donate', 'sd_success_url');
             register_setting('sd_sage_donate', 'sd_failure_url');
             register_setting('sd_sage_donate', 'sd_notify_email');
+            register_setting('sd_sage_donate', 'sd_reply_to_email');
             register_setting('sd_sage_donate', 'sd_confirmation');
             register_setting('sd_sage_donate', 'sd_confirmation_body');
         } // END public function init_custom_settings()
@@ -458,16 +459,28 @@ if(!class_exists('SD_Sage_Donate'))
             if(get_option('sd_confirmation') &&
                $message = get_option('sd_confirmation_body')) {
                 if (strpos($donation->status, 'Successful')) {
+                    $headers = array();
+
+                    $reply_to = get_option('sd_reply_to_email');
+                    if ($reply_to != "") {
+                        $headers['Reply-To'] = $reply_to;
+                    }
+
+                    add_filter( 'wp_mail_content_type', array(&$this, 'set_html_content_type') );
                     $mail = wp_mail(
                         $donation->email,
                         'Thank you',
                         apply_filters('the_content', $message),
                         $headers);
+                    remove_filter( 'wp_mail_content_type', array(&$this, 'set_html_content_type') );
                 }
             }
 
-
         } // END success page
+
+        public function set_html_content_type() {
+            return 'text/html';
+        }
 
         /**
          * Check if input is currency

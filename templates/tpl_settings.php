@@ -132,6 +132,11 @@
                     </td>
                 </tr>
 
+                <tr valign="top">
+                    <th scope="row"><label for="sd_reply_to_email">Reply to email<br /><small>Where should replys to the thank you be sent?</small></label></th>
+                    <td><input class="regular-text code" type="text" name="sd_reply_to_email" id="sd_reply_to_email" value="<?php echo get_option('sd_reply_to_email'); ?>" /></td>
+                </tr>
+
             </table>
 
         </fieldset>
