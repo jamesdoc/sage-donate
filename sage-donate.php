@@ -461,7 +461,7 @@ if(!class_exists('SD_Sage_Donate'))
                     $mail = wp_mail(
                         $donation->email,
                         'Thank you',
-                        $message,
+                        apply_filters('the_content', $message),
                         $headers);
                 }
             }
