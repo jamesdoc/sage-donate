@@ -1,6 +1,6 @@
 # Sage Donate
 
-Current status: Work in Progress
+V1.1.0
 
 ## Installation
 
@@ -19,6 +19,15 @@ Add `[sage_after_donate]`
 *Failure* - Where Sage redirects the user if the payment fails  
 Add `[sage_after_donate]`
 
+## Credits
+
+Sagepay PHP library by Timur Olzhabayev: https://github.com/tolzhabayev/sagepayForm-php
+
+## Changelog
+
+### V1.1.0
+- Adds editable gift aid text
+- Prevents the form from being submitted with £0.00
 
 ## Roadmap
 
@@ -26,4 +35,4 @@ Add `[sage_after_donate]`
 - CSV export
 - Encryption
 - Basic styling
-- Editable Gift Aid blurb
+

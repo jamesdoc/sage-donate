@@ -86,18 +86,16 @@
 
     <?php if (get_option('sd_giftaid') == 1): ?>
     <fieldset class="sagedonateform__giftaid">
-        <h2>Are you a UK tax payer?</h2>
-        <p>If you are a UK taxpayer, the value of your gift can be increased by 25% under the Gift Aid scheme at no extra cost to you.</p>
-        <p>I understand that I must pay an amount of UK income Tax and/or Capital Gains Tax, excluding VAT and Council tax, at least equal to the tax that charities reclaim on my donations (currently 25p for every £1 donated).</p>
-        <p>Please tick the box below to join the Gift Aid scheme.</p>
+        <h2><?php echo get_option('sd_giftaid_heading'); ?></h2>
+        <?php echo apply_filters('the_content', get_option('sd_giftaid_content')) ?>
         <p>
             <label>
                 <input type="radio" name="chk_giftaid" id="chk_giftaid" value="1" <?php if(!isset($user_input['giftaid']) || (isset($user_input['giftaid']) && $user_input['giftaid'] == 1)){ echo 'checked'; } ?>/>
-                <label for="chk_giftaid">I am a UK taxpayer and I would like all the donations I make from 1 April 2008, until I notify you otherwise, as Gift Aid donations.</label>
+                <label for="chk_giftaid"><?php echo get_option('sd_giftaid_yes_label'); ?></label>
             </label><br />
             <label>
                 <input type="radio" name="chk_giftaid" id="chk_giftaid" value="0" <?php if(isset($user_input['giftaid']) && $user_input['giftaid'] == 0){ echo 'checked'; } ?>/>
-                <label>I am not a UK taxpayer.</label>
+                <label for="chk_giftaid"><?php echo get_option('sd_giftaid_no_label'); ?></label>
             </label>
         </p>
     </fieldset>
@@ -121,7 +119,7 @@
 
     <?php wp_nonce_field( 'post_nonce', 'post_nonce_field' ); ?>
     <input type="hidden" id="hdn_currency" name="hdn_currency" value="<?php echo $currency; ?>" />
-    <input type="submit" id="btn_submit" name="btn_submit" class="btn btn--submit" value="Next" />
+    <input type="submit" id="btn_submit" name="btn_submit" class="btn btn--submit sagedonateform__btn sagedonateform__btn--submit" value="Next" />
 
     <?php
         $footnote = get_option('sd_footnote_message');

@@ -53,11 +53,6 @@
                 </tr>
 
                 <tr valign="top">
-                    <th scope="row"><label for="sd_giftaid">Accept Gift Aid?</label></th>
-                    <td><input type="checkbox" name="sd_giftaid" id="sd_giftaid" value="1"<?php if (get_option('sd_giftaid')==1) { echo ' checked="checked"'; } ?> /></td>
-                </tr>
-
-                <tr valign="top">
                     <th scope="row"><label for="sd_footnote_message">Footnote message<br /><small>This text is shown directly below your form.</small></label></th>
                     <td>
                         <textarea class="large-text code" name="sd_footnote_message" id="sd_footnote_message"><?php echo get_option('sd_footnote_message'); ?></textarea>
@@ -71,6 +66,44 @@
                     </td>
                 </tr>
 
+            </table>
+        </fieldset>
+
+        <hr />
+
+        <fieldset>
+            <h3>Gift Aid Settings</h3>
+            <table class="form-table">
+
+                <tr valign="top">
+                    <th scope="row"><label for="sd_giftaid">Accept Gift Aid?</label></th>
+                    <td><input type="checkbox" name="sd_giftaid" id="sd_giftaid" value="1"<?php if (get_option('sd_giftaid')==1) { echo ' checked="checked"'; } ?> /></td>
+                </tr>
+
+                <tr valign="top">
+                    <th scope="row"><label for="sd_giftaid_heading">Gift Aid form heading</label></th>
+                    <td><input class="regular-text code" type="text" name="sd_giftaid_heading" id="sd_giftaid_heading" value="<?php echo get_option('sd_giftaid_heading'); ?>" /></td>
+                </tr>
+
+                <tr valign="top">
+                    <th scope="row"><label for="sd_giftaid_content">Gift Aid description</label></th>
+                    <td>
+                        <?php
+                            $contents = get_option('sd_giftaid_content');
+                            wp_editor( $contents , 'sd_giftaid_content', $settings = array('textarea_name'=>'sd_giftaid_content', 'media_buttons'=>false, 'textarea_rows'=>5, 'teeny'=>true) );
+                        ?>
+                    </td>
+                </tr>
+
+                <tr valign="top">
+                    <th scope="row"><label for="sd_giftaid_yes_label">Gift Aid yes label</label></th>
+                    <td><input class="regular-text code" type="text" name="sd_giftaid_yes_label" id="sd_giftaid_yes_label" value="<?php echo get_option('sd_giftaid_yes_label'); ?>" /></td>
+                </tr>
+
+                <tr valign="top">
+                    <th scope="row"><label for="sd_giftaid_no_label">Gift Aid no label</label></th>
+                    <td><input class="regular-text code" type="text" name="sd_giftaid_no_label" id="sd_giftaid_no_label" value="<?php echo get_option('sd_giftaid_no_label'); ?>" /></td>
+                </tr>
             </table>
         </fieldset>
 
@@ -127,7 +160,7 @@
                         <br />
                         <?php
                             $contents = get_option('sd_confirmation_body');
-                            wp_editor( $contents , 'sd_confirmation_body', $settings = array('textarea_name'=>'sd_confirmation_body') );
+                            wp_editor( $contents , 'sd_confirmation_body', $settings = array('textarea_name'=>'sd_confirmation_body', 'media_buttons'=>false, 'textarea_rows'=>5, 'teeny'=>true) );
                         ?>
                     </td>
                 </tr>

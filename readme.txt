@@ -4,10 +4,7 @@ Tags: SagePay Donate Donation
 
 == Description ==
 
-Current status: Work in Progress
-
-Missing:
-- Email notifications
+V1.1.0
 
 Planned:
 - Improved admin interface
@@ -32,3 +29,9 @@ Add `[sage_after_donate]`
 Onwards!
 
 == Changelog ==
+
+1.1.0 - Adds editable giftaid text
+
+== Credits ==
+
+Sagepay PHP library by Timur Olzhabayev: https://github.com/tolzhabayev/sagepayForm-php
