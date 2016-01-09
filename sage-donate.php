@@ -252,7 +252,7 @@ if(!class_exists('SD_Sage_Donate'))
 
             // Set up pagination config
             $pagination_config = array(
-                'total' => round($total_donations / $number_of_results_to_display),
+                'total' => ceil($total_donations / $number_of_results_to_display),
                 'current' => max( 1, $page ),
                 'format' => '?paged=%#%',
             );
