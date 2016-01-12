@@ -19,7 +19,7 @@ if(!class_exists('SD_Sage_Donate'))
         public static $validation = array('hi'=>'yes');
         public static $sage_url = array(
             'test' => "https://test.sagepay.com/gateway/service/vspform-register.vsp",
-            'live' => "https:/live.sagepay.com/gateway/service/vspform-register.vsp",
+            'live' => "https://live.sagepay.com/gateway/service/vspform-register.vsp",
         );
 
         /**
