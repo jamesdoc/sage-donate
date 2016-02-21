@@ -159,7 +159,7 @@ if(!class_exists('SD_Sage_Donate'))
             register_setting('sd_sage_donate', 'sd_live_staging');
             register_setting('sd_sage_donate', 'sd_currency');
             register_setting('sd_sage_donate', 'sd_giftaid');
-            register_setting('sd_sage_donate', 'sd_giftaid_header');
+            register_setting('sd_sage_donate', 'sd_giftaid_heading');
             register_setting('sd_sage_donate', 'sd_giftaid_content');
             register_setting('sd_sage_donate', 'sd_giftaid_yes_label');
             register_setting('sd_sage_donate', 'sd_giftaid_no_label');
