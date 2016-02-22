@@ -30,7 +30,7 @@ if(!class_exists('SD_Sage_Donate'))
             global $sd_db_version;
             global $sb_db_tablename;
             global $wpdb;
-            $sd_db_version = '1.1.0';
+            $sd_db_version = '1.1.1';
             $sb_db_tablename = $wpdb->prefix . 'sd_donations';
 
             // register actions
@@ -107,13 +107,9 @@ if(!class_exists('SD_Sage_Donate'))
 
                 // Step through each update
 
-                if ($current_version == '1.0') {
-                    include_once('updates/sd-1-0-1.php');
-                }
-
-                if ($current_version == '1.0.1') {
-                    include_once('updates/sd-1-1-0.php');
-                }
+                if ($current_version == '1.0')   { include_once('updates/sd-1-0-1.php'); }
+                if ($current_version == '1.0.1') { include_once('updates/sd-1-1-0.php'); }
+                if ($current_version == '1.1.0') { include_once('updates/sd-1-1-1.php'); }
 
                 /*
                 if ($current_version == 1.0.1) {
@@ -162,7 +158,6 @@ if(!class_exists('SD_Sage_Donate'))
             register_setting('sd_sage_donate', 'sd_giftaid_heading');
             register_setting('sd_sage_donate', 'sd_giftaid_content');
             register_setting('sd_sage_donate', 'sd_giftaid_yes_label');
-            register_setting('sd_sage_donate', 'sd_giftaid_no_label');
             register_setting('sd_sage_donate', 'sd_mailing_list_signup');
             register_setting('sd_sage_donate', 'sd_mailing_list_cta');
             register_setting('sd_sage_donate', 'sd_redirect_message');

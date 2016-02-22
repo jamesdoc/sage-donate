@@ -87,17 +87,15 @@
     <?php if (get_option('sd_giftaid') == 1): ?>
     <fieldset class="sagedonateform__giftaid">
         <h2><?php echo get_option('sd_giftaid_heading'); ?></h2>
+        <div class="sagedonateform__giftaid__information">
         <?php echo apply_filters('the_content', get_option('sd_giftaid_content')) ?>
-        <p>
+        </div>
+        <div class="sagedonateform__giftaid__buttons">
             <label>
-                <input type="radio" name="chk_giftaid" id="chk_giftaid" value="1" <?php if(!isset($user_input['giftaid']) || (isset($user_input['giftaid']) && $user_input['giftaid'] == 1)){ echo 'checked'; } ?>/>
+                <input type="checkbox" name="chk_giftaid" id="chk_giftaid" value="1" <?php if(isset($user_input['giftaid']) && $user_input['giftaid'] == 1){ echo 'checked'; } ?>/>
                 <label for="chk_giftaid"><?php echo get_option('sd_giftaid_yes_label'); ?></label>
-            </label><br />
-            <label>
-                <input type="radio" name="chk_giftaid" id="chk_giftaid" value="0" <?php if(isset($user_input['giftaid']) && $user_input['giftaid'] == 0){ echo 'checked'; } ?>/>
-                <label for="chk_giftaid"><?php echo get_option('sd_giftaid_no_label'); ?></label>
             </label>
-        </p>
+        </div>
     </fieldset>
     <?php endif; // End check for gift aid ?>
 
@@ -107,7 +105,6 @@
             $cta = get_option('sd_mailing_list_cta');
             if ($cta == "") { $cta = "Sign up to our newsletter?"; }
         ?>
-        <p></p>
         <p>
             <label>
             <input type="checkbox" name="chk_mailinglist" id="chk_mailinglist" value="1" <?php if(!isset($user_input['mailinglist']) || (isset($user_input['mailinglist']) && $user_input['mailinglist'] == 1)){ echo 'checked'; } ?>/>

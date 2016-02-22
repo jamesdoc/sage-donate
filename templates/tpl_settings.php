@@ -99,11 +99,6 @@
                     <th scope="row"><label for="sd_giftaid_yes_label">Gift Aid yes label</label></th>
                     <td><input class="regular-text code" type="text" name="sd_giftaid_yes_label" id="sd_giftaid_yes_label" value="<?php echo get_option('sd_giftaid_yes_label'); ?>" /></td>
                 </tr>
-
-                <tr valign="top">
-                    <th scope="row"><label for="sd_giftaid_no_label">Gift Aid no label</label></th>
-                    <td><input class="regular-text code" type="text" name="sd_giftaid_no_label" id="sd_giftaid_no_label" value="<?php echo get_option('sd_giftaid_no_label'); ?>" /></td>
-                </tr>
             </table>
         </fieldset>
 
