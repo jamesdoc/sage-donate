@@ -30,7 +30,7 @@ if(!class_exists('SD_Sage_Donate'))
             global $sd_db_version;
             global $sb_db_tablename;
             global $wpdb;
-            $sd_db_version = '1.1.1';
+            $sd_db_version = '1.2.0';
             $sb_db_tablename = $wpdb->prefix . 'sd_donations';
 
             // register actions
@@ -106,10 +106,10 @@ if(!class_exists('SD_Sage_Donate'))
             if ( $current_version  != $sd_db_version ) {
 
                 // Step through each update
-
                 if ($current_version == '1.0')   { include_once('updates/sd-1-0-1.php'); }
                 if ($current_version == '1.0.1') { include_once('updates/sd-1-1-0.php'); }
                 if ($current_version == '1.1.0') { include_once('updates/sd-1-1-1.php'); }
+                if ($current_version == '1.1.1') { include_once('updates/sd-1-2-0.php'); }
 
                 /*
                 if ($current_version == 1.0.1) {
@@ -168,6 +168,8 @@ if(!class_exists('SD_Sage_Donate'))
             register_setting('sd_sage_donate', 'sd_reply_to_email');
             register_setting('sd_sage_donate', 'sd_confirmation');
             register_setting('sd_sage_donate', 'sd_confirmation_body');
+            register_setting('sd_sage_donate', 'sd_show_allocate');
+            register_setting('sd_sage_donate', 'sd_allocate_default');
         } // END public function init_custom_settings()
 
         /**
@@ -326,18 +328,19 @@ if(!class_exists('SD_Sage_Donate'))
         public function validate_and_clean_post_array(){
 
             self::$input_data = array(
-                'name_first'    => sanitize_text_field($_POST['txt_name_first']),
-                'name_last'     => sanitize_text_field($_POST['txt_name_last']),
-                'email'         => sanitize_email($_POST['txt_email']),
-                'phone'         => sanitize_text_field($_POST['txt_phone']),
-                'address1'      => sanitize_text_field($_POST['txt_address1']),
-                'address2'      => sanitize_text_field($_POST['txt_address2']),
-                'city'          => sanitize_text_field($_POST['txt_city']),
-                'county'        => sanitize_text_field($_POST['txt_county']),
-                'postcode'      => sanitize_text_field($_POST['txt_postcode']),
-                'country'       => sanitize_text_field($_POST['cbo_country']),
-                'amount'        => sanitize_text_field($_POST['txt_amount']),
-                'currency'      => sanitize_text_field($_POST['hdn_currency'])
+                'name_first'      => sanitize_text_field($_POST['txt_name_first']),
+                'name_last'       => sanitize_text_field($_POST['txt_name_last']),
+                'email'           => sanitize_email($_POST['txt_email']),
+                'phone'           => sanitize_text_field($_POST['txt_phone']),
+                'address1'        => sanitize_text_field($_POST['txt_address1']),
+                'address2'        => sanitize_text_field($_POST['txt_address2']),
+                'city'            => sanitize_text_field($_POST['txt_city']),
+                'county'          => sanitize_text_field($_POST['txt_county']),
+                'postcode'        => sanitize_text_field($_POST['txt_postcode']),
+                'country'         => sanitize_text_field($_POST['cbo_country']),
+                'amount'          => sanitize_text_field($_POST['txt_amount']),
+                'currency'        => sanitize_text_field($_POST['hdn_currency']),
+                'gift_allocation' => sanitize_text_field($_POST['txt_gift_allocation'])
             );
 
             if (isset($_POST['chk_giftaid'])) {
@@ -383,24 +386,25 @@ if(!class_exists('SD_Sage_Donate'))
             $wpdb->insert(
                 $sb_db_tablename,
                 array(
-                    'init_time'     => current_time( 'mysql' ),
-                    'updated_time'  => current_time( 'mysql' ),
-                    'name_first'    => self::$input_data['name_first'],
-                    'name_last'     => self::$input_data['name_last'],
-                    'email'         => self::$input_data['email'],
-                    'phone'         => self::$input_data['phone'],
-                    'address1'      => self::$input_data['address1'],
-                    'address2'      => self::$input_data['address2'],
-                    'city'          => self::$input_data['city'],
-                    'county'        => self::$input_data['county'],
-                    'postcode'      => self::$input_data['postcode'],
-                    'country'       => self::$input_data['country'],
-                    'giftaid'       => self::$input_data['giftaid'],
-                    'mailinglist'   => self::$input_data['mailinglist'],
-                    'amount'        => self::$input_data['amount'],
-                    'currency'      => self::$input_data['currency'],
-                    'status'        => 'SENT TO SAGEPAY',
-                    'sage_vendortx' => self::$input_data['sage_vendortx']
+                    'init_time'       => current_time( 'mysql' ),
+                    'updated_time'    => current_time( 'mysql' ),
+                    'name_first'      => self::$input_data['name_first'],
+                    'name_last'       => self::$input_data['name_last'],
+                    'email'           => self::$input_data['email'],
+                    'phone'           => self::$input_data['phone'],
+                    'address1'        => self::$input_data['address1'],
+                    'address2'        => self::$input_data['address2'],
+                    'city'            => self::$input_data['city'],
+                    'county'          => self::$input_data['county'],
+                    'postcode'        => self::$input_data['postcode'],
+                    'country'         => self::$input_data['country'],
+                    'giftaid'         => self::$input_data['giftaid'],
+                    'mailinglist'     => self::$input_data['mailinglist'],
+                    'amount'          => self::$input_data['amount'],
+                    'currency'        => self::$input_data['currency'],
+                    'status'          => 'SENT TO SAGEPAY',
+                    'sage_vendortx'   => self::$input_data['sage_vendortx'],
+                    'gift_allocation' => self::$input_data['gift_allocation']
                 )
             );
             return $wpdb->insert_id;
@@ -416,6 +420,8 @@ if(!class_exists('SD_Sage_Donate'))
                 $user_input = self::$input_data;
                 $user_validation = self::$validation;
                 $currency = get_option( 'sd_currency' , 'GBP' );
+                $show_allocation_field = get_option( 'sd_show_allocate' );
+                $default_allocation = get_option( 'sd_allocate_default' );
                 $status = get_option( 'sd_live_staging' , 'live' );
                 include(sprintf(
                     "%s/templates/tpl_donate_form.php",

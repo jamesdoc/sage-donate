@@ -26,7 +26,7 @@
     </tr>
 
     <tr<?php if($k% 2 == 0){ echo ' class="alternate"';}?>>
-        <td>
+        <td colspan="2'">
             <p>
                 <strong>Address</strong><br />
                 <?php echo $donation->address1; ?><br />
@@ -49,7 +49,19 @@
                 ?>
             </p>
         </td>
-        <td colspan="5"></td>
+        <td>
+            <p>
+                <strong>Allocation</strong><br />
+                <?php
+                    if($donation->gift_allocation) {
+                        echo $donation->gift_allocation;
+                    } else {
+                        echo 'N/A';
+                    }
+                ?>
+            </p>
+        </td>
+        <td colspan="3"></td>
     </tr>
     <?php endforeach; ?>
 

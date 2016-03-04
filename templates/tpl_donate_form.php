@@ -19,6 +19,14 @@
             <label for="txt_amount">Amount <span class="required sagedonateform__required">*</span></label>
             <input type="text" name="txt_amount" id="txt_amount" value="<?php echo $amount; ?>" />
         </p>
+
+        <?php if ($show_allocation_field) { ?>
+        <p>
+            <label for="txt_gift_allocation">Allocate my gift to...</label>
+            <input type="text" name="txt_gift_allocation" id="txt_gift_allocation" value="<?php echo $default_allocation; ?>" />
+        </p>
+        <?php } // end if allocation ?>
+
     </fieldset>
 
 

@@ -66,6 +66,18 @@
                     </td>
                 </tr>
 
+                <tr valign="top">
+                    <th scope="row"><label for="sd_show_allocate">Show allocation field?</label></th>
+                    <td><input type="checkbox" name="sd_show_allocate" id="sd_show_allocate" value="1"<?php if (get_option('sd_show_allocate')==1) { echo ' checked="checked"'; } ?> /></td>
+                </tr>
+
+                <tr valign="top">
+                    <th scope="row"><label for="sd_redirect_message">Default allocation<br /><small>eg: Give where the need is greatest</small></label></th>
+                    <td>
+                        <textarea class="large-text code" name="sd_allocate_default" id="sd_allocate_default"><?php echo get_option('sd_allocate_default'); ?></textarea>
+                    </td>
+                </tr>
+
             </table>
         </fieldset>
 
