@@ -449,6 +449,7 @@ if(!class_exists('SD_Sage_Donate'))
 
             // 3 | Look up donation details
             $donation = self::select_donation_detail($decoded['VendorTxCode']);
+            $show_allocation_field = get_option( 'sd_show_allocate' );
 
             // 4 | Send notification email to admin
             $headers = array('Content-Type: text/html; charset=UTF-8');

@@ -50,8 +50,14 @@
               if ($donation->giftaid) { $email_content .= 'Yes'; }
               else { $email_content .= 'No'; };
             $email_content .= '</td>
-          </tr>
-          <tr>
+          </tr>';
+          if ($show_allocation_field) {
+            $email_content .= '<tr>
+              <td><b>Gift allocation</b></td>
+              <td>' . $donation->gift_allocation .'</td>
+            </tr>';
+          }
+          $email_content .= '<tr>
             <td><b>Mailing List</b></td>
             <td>';
               if ($donation->mailinglist) { $email_content .= 'Yes'; }
