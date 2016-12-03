@@ -25,6 +25,9 @@ Sagepay PHP library by Timur Olzhabayev: https://github.com/tolzhabayev/sagepayF
 
 ## Changelog
 
+### V1.1.1
+- From name and email address now set in thank you email
+
 ### V1.1.0
 - Adds editable gift aid text
 - Prevents the form from being submitted with £0.00

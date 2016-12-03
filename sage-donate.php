@@ -473,9 +473,16 @@ if(!class_exists('SD_Sage_Donate'))
                     $reply_to = get_option('sd_reply_to_email');
                     if ($reply_to != "") {
                         $headers['Reply-To'] = $reply_to;
+                        add_filter( 'wp_mail_from', function( $email ) {
+                            return $reply_to;
+                        });
+                        add_filter( 'wp_mail_from_name', function( $name ) {
+                            return get_bloginfo('name');
+                        });
                     }
 
                     add_filter( 'wp_mail_content_type', array(&$this, 'set_html_content_type') );
+
                     $mail = wp_mail(
                         $donation->email,
                         'Thank you',

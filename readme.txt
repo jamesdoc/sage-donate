@@ -30,6 +30,7 @@ Onwards!
 
 == Changelog ==
 
+1.1.1 - From name and email address now set in thank you email
 1.1.0 - Adds editable giftaid text
 
 == Credits ==
